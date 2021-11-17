@@ -47,4 +47,9 @@ public class PlayerController : MonoBehaviour
             transform.position = playerPos; 
         }
     }
-}
+    [SerializeField] private GameObject Lazer; //レーザープレハブを格納
+    [SerializeField] private Transform attackPoint;//アタックポイントを格納
+    [SerializeField] private float attackTime = 0.2f; //攻撃の間隔
+    private float currentAttackTime; //攻撃の間隔を管理
+    private bool canAttack; //攻撃可能状態かを指定するフラグ
+ }
