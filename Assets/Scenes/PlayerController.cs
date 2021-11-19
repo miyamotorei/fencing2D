@@ -7,15 +7,23 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float speed;//プレイヤーの移動速度
     [SerializeField] private float maxY,minY; //移動範囲の制限
 
+    [SerializeField] private GameObject lazer; //レーザープレハブを格納
+    [SerializeField] private Transform attackPoint;//アタックポイントを格納
+
+    [SerializeField] private float attackTime = 0.2f; //攻撃の間隔
+    private float currentAttackTime; //攻撃の間隔を管理
+    private bool canAttack; //攻撃可能状態かを指定するフラグ
+
     void Start()
     {
-        
+       currentAttackTime = attackTime; 
     }
 
     // Update is called once per frame
     void Update()
     {
         MovePlayer(); //プレイヤーを動かすメソットを呼び出す
+        Attack();
     }
 
     void MovePlayer()
@@ -47,9 +55,26 @@ public class PlayerController : MonoBehaviour
             transform.position = playerPos; 
         }
     }
-    [SerializeField] private GameObject Lazer; //レーザープレハブを格納
-    [SerializeField] private Transform attackPoint;//アタックポイントを格納
-    [SerializeField] private float attackTime = 0.2f; //攻撃の間隔
-    private float currentAttackTime; //攻撃の間隔を管理
-    private bool canAttack; //攻撃可能状態かを指定するフラグ
- }
+}
+
+        void Attack()
+         {
+             attackTime += Time.deltaTime;
+
+             if(attackTime > currentAttackTime)
+             {
+                 canAttack = true;
+             }
+
+
+             if (Input.GetKeyDown(KeyCode.K))
+             {
+                 if (canAttack)
+                 {
+
+                     Instantiate(laser, attackPoint.position, Quaternion.identity);
+                     canAttack = false;
+                     attackTime = 0f;
+                 }
+             }
+         }
